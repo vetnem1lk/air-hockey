@@ -1,6 +1,6 @@
 #include "OpenGLRenderer.h"
 
-#include "core/Game.h"
+#include "world/World.h"
 
 #include <GL/gl.h>
 
@@ -9,7 +9,6 @@ OpenGLRenderer::OpenGLRenderer(const IWindow& window)
 {
     glViewport(0, 0, m_window.width(), m_window.height());
 
-    // Настройка 2D проекции в пикселях
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0, m_window.width(), 0, m_window.height(), -1, 1);

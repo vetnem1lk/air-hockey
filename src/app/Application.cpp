@@ -4,12 +4,11 @@
 #include "platform/GlfwWindow.h"
 
 #include "core/Game.h"
-#include "core/Time.h"
 
 #include "render/IRenderer.h"
 #include "render/OpenGLRenderer.h"
 
-Application::Application() = default;
+Application::Application() : m_running(false), m_isPaused(false) {}
 Application::~Application() = default;
 
 int Application::run()
@@ -23,7 +22,7 @@ int Application::run()
 void Application::init()
 {
 #ifdef EMSCRIPTEN
-    m_window   = std::make_unique<EmscriptenWindow>(1280, 720, "Air Hockey");
+    m_window   = std::make_unique<EmsWindow>(1280, 720, "Air Hockey");
     m_renderer = std::make_unique<WebGLRenderer>(*m_window);
 #else
     m_window   = std::make_unique<GlfwWindow>(1280, 720, "Air Hockey");
@@ -36,15 +35,18 @@ void Application::init()
 
 void Application::loop()
 {
-    Time time;
+    m_time.update();
 
     while (m_running && !m_window->shouldClose()) {
-        time.update();
+        m_time.update();
+        const double dt = m_time.delta();
+
         m_window->pollEvents();
 
-        m_game->physics().applyPlayerInput(m_game->world(), m_window->input(), time.delta());
-
-        m_game->update(time.delta());
+        if (!m_isPaused) {
+            m_game->physics().applyPlayerInput(m_game->world(), m_window->input(), dt);
+            m_game->update(dt);
+        }
 
         m_renderer->beginFrame();
         m_renderer->render(m_game->world());
