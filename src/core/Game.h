@@ -1,5 +1,7 @@
 #pragma once
 
+#include <random>
+
 #include "world/World.h"
 #include "physics/PhysicsWorld.h"
 
@@ -8,6 +10,7 @@ public:
     Game();
 
     void update(double dt);
+    void reset();
 
     // Чтение
     [[nodiscard]] const World& world() const { return m_world; }
@@ -23,6 +26,8 @@ private:
     World m_world;
     PhysicsWorld m_physics;
     double m_accumulator = 0.0;
+
+    std::mt19937 m_rng;
 
     static constexpr double FIXED_DT = 1.0 / 120.0;
 };
