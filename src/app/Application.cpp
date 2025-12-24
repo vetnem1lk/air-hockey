@@ -22,10 +22,15 @@ int Application::run()
 
 void Application::init()
 {
-    m_window = std::make_unique<GlfwWindow>(1280, 720, "Air Hockey");
+#ifdef EMSCRIPTEN
+    m_window   = std::make_unique<EmscriptenWindow>(1280, 720, "Air Hockey");
+    m_renderer = std::make_unique<WebGLRenderer>(*m_window);
+#else
+    m_window   = std::make_unique<GlfwWindow>(1280, 720, "Air Hockey");
     m_renderer = std::make_unique<OpenGLRenderer>(*m_window);
-    m_game = std::make_unique<Game>();
+#endif
 
+    m_game = std::make_unique<Game>();
     m_running = true;
 }
 

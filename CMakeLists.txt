@@ -29,7 +29,6 @@ set(SRC
     src/app/Application.cpp
     src/core/Game.cpp
     src/core/Time.cpp
-    src/math/Math.cpp
     src/physics/PhysicsWorld.cpp
     src/render/OpenGLRenderer.cpp
     src/render/WebGLRenderer.cpp
@@ -39,7 +38,7 @@ set(SRC
 
 add_executable(air-hockey ${SRC})
 
-target_include_directories(air-hockey PRIVATE src)
+target_include_directories(air-hockey PRIVATE src external/glm)
 
 if(EMSCRIPTEN)
     target_link_libraries(air-hockey PRIVATE glad_web)
