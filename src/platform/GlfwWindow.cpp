@@ -1,5 +1,6 @@
 #include "GlfwWindow.h"
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stdexcept>
 
@@ -11,8 +12,7 @@ GlfwWindow::GlfwWindow(int width, int height, const char* title)
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     m_handle = glfwCreateWindow(width, height, title, nullptr, nullptr);
     if (!m_handle) {
@@ -21,6 +21,11 @@ GlfwWindow::GlfwWindow(int width, int height, const char* title)
     }
 
     glfwMakeContextCurrent(m_handle);
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        throw std::runtime_error("Failed to initialize GLAD");
+    }
+
     glfwSwapInterval(1);
 }
 

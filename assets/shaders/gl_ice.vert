@@ -1,0 +1,13 @@
+#version 460 core
+
+layout(location = 0) in vec2 aPos;       // Позиция вершины (x, y)
+layout(location = 1) in vec2 aTexCoord;  // Текстурные координаты (u, v)
+
+out vec2 vTexCoord; // Передаем во фрагментный шейдер
+
+uniform mat4 uProjection;
+
+void main() {
+    vTexCoord = aTexCoord;
+    gl_Position = uProjection * vec4(aPos, 0.0, 1.0);
+}

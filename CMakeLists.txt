@@ -36,6 +36,9 @@ set(SRC
     src/physics/PhysicsWorld.cpp
     src/render/OpenGLRenderer.cpp
     src/render/WebGLRenderer.cpp
+    src/render/Shader.cpp
+    src/render/Texture.cpp
+    src/render/VertexArray.cpp
     src/platform/GlfwWindow.cpp
     src/platform/EmsWindow.cpp
 )
@@ -64,4 +67,10 @@ include(GNUInstallDirs)
 install(TARGETS air-hockey
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_CURRENT_SOURCE_DIR}/assets"
+    "$<TARGET_FILE_DIR:${PROJECT_NAME}>/assets"
 )
