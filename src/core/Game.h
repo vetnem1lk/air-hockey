@@ -20,7 +20,7 @@ public:
     PhysicsWorld& physics() { return m_physics; }
 
 private:
-    void fixedUpdate(double fixedDt);
+    void fixedUpdate(double fixedDt, const InputState& input);
 
 private:
     World m_world;

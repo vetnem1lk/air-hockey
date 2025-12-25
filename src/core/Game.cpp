@@ -13,7 +13,7 @@ void Game::update(double dt, const InputState& input)
     m_accumulator += dt;
 
     while (m_accumulator >= FIXED_DT) {
-        m_physics.simulate(m_world, input, FIXED_DT);
+        fixedUpdate(FIXED_DT, input);
         m_accumulator -= FIXED_DT;
     }
 }
@@ -37,7 +37,7 @@ void Game::reset()
     m_world.rightPaddle.velocity = {0.f, 0.f};
 }
 
-void Game::fixedUpdate(double fixedDt)
+void Game::fixedUpdate(double fixedDt, const InputState& input)
 {
-    //m_physics.simulate(m_world, fixedDt);
+    m_physics.simulate(m_world, input, fixedDt);
 }
